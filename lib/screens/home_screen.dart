@@ -12,10 +12,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ApiService _api = ApiService(baseUrl: 'http://your-backend-ip:5000', authToken: 'your_token');
-  
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+    final api = auth.apiService;
+
+    if (api == null) {
+      return const Scaffold(body: Center(child: Text('Not authenticated')));
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -44,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 30),
                   ContentRow(
                     title: 'Continue Watching',
-                    future: _api.getContinueWatching(),
+                    future: api.getContinueWatching(),
                     builder: (series) => MovieCard(series: series),
                   ),
                   const SizedBox(height: 40),
                   ContentRow(
                     title: 'Your Library',
-                    future: _api.getLibraryGrid(),
+                    future: api.getLibraryGrid(),
                     builder: (series) => MovieCard(series: series),
                   ),
                 ],
