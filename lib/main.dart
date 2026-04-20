@@ -9,7 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
   final authProvider = AuthProvider();
-  await authProvider.loadToken();
+  await authProvider.loadAuth();
 
   runApp(
     ChangeNotifierProvider(
